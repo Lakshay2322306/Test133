@@ -166,29 +166,38 @@
     targetLangSelect.value = 'es';
 
     // Translation function
-    async function translateText() {
-      const sourceText = document.getElementById('sourceText').value;
-      const sourceLang = sourceLangSelect.value;
-      const targetLang = targetLangSelect.value;
-      
-      if (!sourceText.trim()) {
-        alert('Please enter text to translate');
-        return;
-      }
-      
-      const loading = document.getElementById('loading');
-      loading.style.display = 'block';
-      
-      try {
-        const response = await fetch('https://test133.onrender.com', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            q: sourceText,
-            source: sourceLang === 'auto' ? '' : sourceLang,
-            target: targetLang
-          })
-        });
+    async function translate() {
+  const text = document.getElementById('sourceText').value;
+  const targetLang = document.getElementById('targetLang').value;
+  
+  // Show loading indicator
+  document.getElementById('loading').style.display = 'block';
+  
+  try {
+    const response = await fetch('https://test133.onrender.com/translate', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        q: text,
+        source: 'auto', // Let LibreTranslate auto-detect
+        target: targetLang
+      })
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    
+    const result = await response.json();
+    document.getElementById('targetText').value = result.translatedText;
+  } catch (error) {
+    console.error('Translation error:', error);
+    alert('Error: ' + error.message);
+  } finally {
+    document.getElementById('loading').style.display = 'none';
+  }
+    }
         
         const data = await response.json();
         document.getElementById('targetText').value = data.translatedText;
