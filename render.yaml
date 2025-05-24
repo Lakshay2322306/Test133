@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: translator-app
+    runtime: docker
+    port: 80
+    env: static
