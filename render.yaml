@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: translator-app
+    name: libretranslate
     runtime: docker
-    port: 80
-    env: static
+    port: 10000  # Must match Docker port
+    env: docker
