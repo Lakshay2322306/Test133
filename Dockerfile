@@ -1,4 +1,4 @@
-FROM nginx:alpine
-COPY . /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM libretranslate/libretranslate
+
+# Enable CORS and set the correct port
+CMD ["--host", "0.0.0.0", "--port", "10000", "--cors"]
