@@ -1,6 +1,10 @@
 services:
   - type: web
-    name: libretranslate
-    runtime: docker
-    port: 10000  # Must match Docker port
-    env: docker
+    name: hopweb-backend
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py"
+    envVars:
+      - key: FLASK_ENV
+        value: production
